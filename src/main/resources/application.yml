@@ -4,7 +4,7 @@ spring:
       uri: ${com_camenduru_web_data_mongodb_uri}
 
 token: ${com_camenduru_discord_token}
-type: ${com_camenduru_discord_type:default}
+type: ${com_camenduru_discord_type}
 
 server:
   port : 8081

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import com.camenduru.discord.domain.Job;
 import com.camenduru.discord.domain.enumeration.JobSource;
 import com.camenduru.discord.domain.enumeration.JobStatus;
-import com.camenduru.discord.repository.JobRepository;
+import com.camenduru.discord.repository.UserRepository;
 
 import reactor.core.publisher.Mono;
 
@@ -25,7 +25,7 @@ public class InferenceCommand implements SlashCommand {
     private MongoTemplate mongoTemplate;
 
     @Autowired
-    private JobRepository jobRepository;
+    private UserRepository userRepository;
 
     private static final JobStatus DEFAULT_STATUS = JobStatus.WAITING;
     private static final JobSource DEFAULT_SOURCE = JobSource.DISCORD;
@@ -75,7 +75,7 @@ public class InferenceCommand implements SlashCommand {
         job.setAmount("0");
         job.setTotal("0");
         job.setResult("null");
-        job.setUser(jobRepository.findByUsername(sourceUsername).getUser());
+        job.setUser(userRepository.findByLogin(sourceUsername));
         System.out.println(job);
         mongoTemplate.save(job);
     }
