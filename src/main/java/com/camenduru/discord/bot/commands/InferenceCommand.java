@@ -33,6 +33,12 @@ public class InferenceCommand implements SlashCommand {
     @Value("${type}")
     private String type;
 
+    @Value("${amount}")
+    private String amount;
+
+    @Value("${total}")
+    private String total;
+
     @Override
     public String getName() {
         return "inference";
@@ -49,6 +55,10 @@ public class InferenceCommand implements SlashCommand {
             .flatMap(ApplicationCommandInteractionOption::getValue)
             .map(ApplicationCommandInteractionOptionValue::asString)
             .orElse(null);
+
+        if (type == null || type.isEmpty()) {
+            type = this.type;
+        }
         
         String sourceChannel = event.getInteraction().getChannelId().asString();
         String sourceId = event.getInteraction().getUser().getId().asString();
@@ -72,8 +82,8 @@ public class InferenceCommand implements SlashCommand {
         job.setSourceUsername(sourceUsername);
         job.setCommand(command);
         job.setType(type);
-        job.setAmount("0");
-        job.setTotal("0");
+        job.setAmount(amount);
+        job.setTotal(total);
         job.setResult("null");
         job.setUser(userRepository.findByLogin(sourceUsername));
         System.out.println(job);

@@ -5,6 +5,8 @@ spring:
 
 token: ${com_camenduru_discord_token}
 type: ${com_camenduru_discord_type}
+amount: ${com_camenduru_discord_amount:10}
+total: ${com_camenduru_discord_total:100}
 
 server:
   port : 8081

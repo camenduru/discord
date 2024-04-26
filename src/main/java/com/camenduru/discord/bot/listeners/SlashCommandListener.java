@@ -1,5 +1,5 @@
 package com.camenduru.discord.bot.listeners;
-;
+
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import org.springframework.stereotype.Component;
