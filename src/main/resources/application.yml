@@ -1,0 +1,10 @@
+spring:
+  data:
+    mongodb:
+      uri: ${com_camenduru_web_data_mongodb_uri}
+
+token: ${com_camenduru_discord_token}
+type: ${com_camenduru_discord_type:default}
+
+server:
+  port : 8081
