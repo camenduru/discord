@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
+import com.camenduru.discord.domain.Detail;
 import com.camenduru.discord.domain.Job;
 import com.camenduru.discord.domain.enumeration.JobSource;
 import com.camenduru.discord.domain.enumeration.JobStatus;
 import com.camenduru.discord.repository.UserRepository;
+import com.camenduru.discord.repository.DetailRepository;
 
 import reactor.core.publisher.Mono;
 
@@ -25,7 +27,7 @@ public class InferenceCommand implements SlashCommand {
     private MongoTemplate mongoTemplate;
 
     @Autowired
-    private UserRepository userRepository;
+    private DetailRepository detailRepository;
 
     private static final JobStatus DEFAULT_STATUS = JobStatus.WAITING;
     private static final JobSource DEFAULT_SOURCE = JobSource.DISCORD;
@@ -74,18 +76,19 @@ public class InferenceCommand implements SlashCommand {
 
     public void saveDiscordJob(Instant date, String sourceId, String sourceChannel, String sourceUsername, String command, String type) {
         Job job = new Job();
+        Detail detail = detailRepository.findByDiscord(sourceUsername);
         job.setDate(date);
         job.setStatus(DEFAULT_STATUS);
         job.setSource(DEFAULT_SOURCE);
         job.setSourceId(sourceId);
         job.setSourceChannel(sourceChannel);
-        job.setSourceUsername(sourceUsername);
         job.setCommand(command);
         job.setType(type);
         job.setAmount(amount);
-        job.setTotal(total);
         job.setResult("null");
-        job.setUser(userRepository.findByLogin(sourceUsername));
+        job.setDiscord(detail);
+        job.setTotal(detail);
+        job.setUser(detail.getUser());
         System.out.println(job);
         mongoTemplate.save(job);
     }
