@@ -13,10 +13,12 @@ import org.springframework.stereotype.Component;
 
 import com.camenduru.discord.domain.Detail;
 import com.camenduru.discord.domain.Job;
+import com.camenduru.discord.domain.Type;
 import com.camenduru.discord.domain.enumeration.JobSource;
 import com.camenduru.discord.domain.enumeration.JobStatus;
 import com.camenduru.discord.repository.UserRepository;
 import com.camenduru.discord.repository.DetailRepository;
+import com.camenduru.discord.repository.TypeRepository;
 
 import reactor.core.publisher.Mono;
 
@@ -29,17 +31,17 @@ public class InferenceCommand implements SlashCommand {
     @Autowired
     private DetailRepository detailRepository;
 
+    @Autowired
+    private TypeRepository typeRepository;
+
     private static final JobStatus DEFAULT_STATUS = JobStatus.WAITING;
     private static final JobSource DEFAULT_SOURCE = JobSource.DISCORD;
 
     @Value("${type}")
     private String type;
 
-    @Value("${amount}")
-    private String amount;
-
-    @Value("${total}")
-    private String total;
+    @Value("${result}")
+    private String result;
 
     @Override
     public String getName() {
@@ -77,17 +79,19 @@ public class InferenceCommand implements SlashCommand {
     public void saveDiscordJob(Instant date, String sourceId, String sourceChannel, String sourceUsername, String command, String type) {
         Job job = new Job();
         Detail detail = detailRepository.findByDiscord(sourceUsername);
+        Type typeC = typeRepository.findByType(type);
         job.setDate(date);
         job.setStatus(DEFAULT_STATUS);
         job.setSource(DEFAULT_SOURCE);
         job.setSourceId(sourceId);
         job.setSourceChannel(sourceChannel);
         job.setCommand(command);
-        job.setType(type);
-        job.setAmount(amount);
-        job.setResult("null");
+        job.setType(typeC.getType());
+        job.setAmount(typeC.getAmount());
+        job.setResult(result);
         job.setDiscord(detail);
         job.setTotal(detail);
+        job.setLogin(detail.getLogin());
         job.setUser(detail.getUser());
         System.out.println(job);
         mongoTemplate.save(job);
