@@ -5,7 +5,6 @@
 # 🚦WIP🚦
 
 ### 🔥 Motivation and Action
-
 This project aims to create a UI for https://github.com/camenduru/camenduru
 
 - https://github.com/camenduru/web <br />
@@ -13,11 +12,9 @@ This project aims to create a UI for https://github.com/camenduru/camenduru
 - https://github.com/camenduru/dispatcher <br />
 
 ### ☎ Discord Client
-
 https://github.com/Discord4J/Discord4J <br />
 
 ### 🌐 Web Application Framework
-
 https://spring.io/ <br />
 https://github.com/spring-projects <br />
 
