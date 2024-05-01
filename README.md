@@ -12,30 +12,12 @@ This project aims to create a UI for https://github.com/camenduru/camenduru
 - https://github.com/camenduru/discord <br />
 - https://github.com/camenduru/service <br />
 
-### 🗃️ Database Provider
+### ☎ Discord Client
 
-https://cloud.mongodb.com/ (512MB Free Shared)
-
-### 💌 Mail Provider
-
-https://gmail.com/ (Free smtp.gmail.com)
+https://github.com/Discord4J/Discord4J <br />
 
 ### 🌐 Web Application Framework
 
 https://spring.io/ <br />
 https://github.com/spring-projects <br />
 
-### 🖼️ Web User Interface Framework
-
-https://angular.io/ <br />
-https://github.com/angular/angular <br />
-
-### ⚡ Web Application Generator
-
-https://www.jhipster.tech/ <br />
-https://github.com/jhipster/generator-jhipster <br />
-https://www.youtube.com/watch?v=IfyjKCt6YHE <br />
-
-#### 🍱 Grid System
-
-https://github.com/naver/egjs-grid <br />
