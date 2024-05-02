@@ -12,4 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface DetailRepository extends MongoRepository<Detail, String> {
     @Query("{'discord': ?0}")
     Detail findByDiscord(String discord);
+
+    @Query("{'login': ?0}")
+    Detail findByLogin(String login);
 }

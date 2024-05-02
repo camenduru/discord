@@ -37,11 +37,14 @@ public class InferenceCommand implements SlashCommand {
     private static final JobStatus DEFAULT_STATUS = JobStatus.WAITING;
     private static final JobSource DEFAULT_SOURCE = JobSource.DISCORD;
 
-    @Value("${type}")
-    private String type;
+    @Value("${camenduru.discord.default.type}")
+    private String defaultType;
 
-    @Value("${result}")
-    private String result;
+    @Value("${camenduru.discord.default.result}")
+    private String defaultResult;
+
+    @Value("${camenduru.discord.default.discord}")
+    private String defaultDiscord;
 
     @Override
     public String getName() {
@@ -61,7 +64,7 @@ public class InferenceCommand implements SlashCommand {
             .orElse(null);
 
         if (type == null || type.isEmpty()) {
-            type = this.type;
+            type = this.defaultType;
         }
         
         String sourceChannel = event.getInteraction().getChannelId().asString();
@@ -78,8 +81,14 @@ public class InferenceCommand implements SlashCommand {
 
     public void saveDiscordJob(Instant date, String sourceId, String sourceChannel, String sourceUsername, String command, String type) {
         Job job = new Job();
-        Detail detail = detailRepository.findByDiscord(sourceUsername);
         Type typeC = typeRepository.findByType(type);
+        Detail detail = new Detail();
+        if(sourceUsername.equals(defaultDiscord)){
+            detail = detailRepository.findByLogin(sourceUsername);
+        }
+        else{
+            detail = detailRepository.findByDiscord(sourceUsername);
+        }
         job.setDate(date);
         job.setStatus(DEFAULT_STATUS);
         job.setSource(DEFAULT_SOURCE);
@@ -88,7 +97,7 @@ public class InferenceCommand implements SlashCommand {
         job.setCommand(command);
         job.setType(typeC.getType());
         job.setAmount(typeC.getAmount());
-        job.setResult(result);
+        job.setResult(defaultResult);
         job.setDiscord(detail);
         job.setTotal(detail);
         job.setLogin(detail.getLogin());

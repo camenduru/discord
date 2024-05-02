@@ -3,9 +3,11 @@ spring:
     mongodb:
       uri: ${com_camenduru_mongodb_uri}
 
-token: ${com_camenduru_discord_token}
-type: ${com_camenduru_job_default_type}
-result: ${com_camenduru_discord_result}
+camenduru:
+  discord.token: ${com_camenduru_discord_token}
+  discord.default.type: ${com_camenduru_discord_default_type}
+  discord.default.result: ${com_camenduru_discord_default_result}
+  discord.default.discord: ${com_camenduru_discord_default_discord}
 
 server:
   port : 8081

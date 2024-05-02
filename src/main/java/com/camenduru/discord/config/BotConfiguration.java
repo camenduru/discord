@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class BotConfiguration {
 
-    @Value("${token}")
+    @Value("${camenduru.discord.token}")
     private String token;
 
     @Bean
