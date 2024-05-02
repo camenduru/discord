@@ -88,6 +88,9 @@ public class InferenceCommand implements SlashCommand {
         }
         else{
             detail = detailRepository.findByDiscord(sourceUsername);
+            if(detail == null){
+                detail = detailRepository.findByLogin(defaultDiscord);
+            }
         }
         job.setDate(date);
         job.setStatus(DEFAULT_STATUS);
