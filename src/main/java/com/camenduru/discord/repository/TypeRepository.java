@@ -12,5 +12,8 @@ import org.springframework.stereotype.Repository;
 public interface TypeRepository extends MongoRepository<Type, String> {
     @Query("{'type': ?0}")
     Type findByType(String type);
+
+    @Query("{'is_default': true}")
+    Type findByDefaultType();
 }
 

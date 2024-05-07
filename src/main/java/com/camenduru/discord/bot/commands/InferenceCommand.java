@@ -16,7 +16,6 @@ import com.camenduru.discord.domain.Job;
 import com.camenduru.discord.domain.Type;
 import com.camenduru.discord.domain.enumeration.JobSource;
 import com.camenduru.discord.domain.enumeration.JobStatus;
-import com.camenduru.discord.repository.UserRepository;
 import com.camenduru.discord.repository.DetailRepository;
 import com.camenduru.discord.repository.TypeRepository;
 
@@ -36,9 +35,6 @@ public class InferenceCommand implements SlashCommand {
 
     private static final JobStatus DEFAULT_STATUS = JobStatus.WAITING;
     private static final JobSource DEFAULT_SOURCE = JobSource.DISCORD;
-
-    @Value("${camenduru.discord.default.type}")
-    private String defaultType;
 
     @Value("${camenduru.discord.default.result}")
     private String defaultResult;
@@ -64,7 +60,7 @@ public class InferenceCommand implements SlashCommand {
             .orElse(null);
 
         if (type == null || type.isEmpty()) {
-            type = this.defaultType;
+            type = typeRepository.findByDefaultType().getType();
         }
         
         String sourceChannel = event.getInteraction().getChannelId().asString();

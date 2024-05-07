@@ -5,7 +5,6 @@ spring:
 
 camenduru:
   discord.token: ${com_camenduru_discord_token}
-  discord.default.type: ${com_camenduru_discord_default_type}
   discord.default.result: ${com_camenduru_discord_default_result}
   discord.default.discord: ${com_camenduru_discord_default_discord}
 
