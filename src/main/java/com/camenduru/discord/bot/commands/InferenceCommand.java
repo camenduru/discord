@@ -21,6 +21,11 @@ import com.camenduru.discord.repository.TypeRepository;
 
 import reactor.core.publisher.Mono;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+
 @Component
 public class InferenceCommand implements SlashCommand {
 
@@ -37,7 +42,10 @@ public class InferenceCommand implements SlashCommand {
     private static final JobSource DEFAULT_SOURCE = JobSource.DISCORD;
 
     @Value("${camenduru.discord.default.result}")
-    private String defaultResult;
+    private String discordDefaultResult;
+
+    @Value("${camenduru.discord.default.result.suffix}")
+    private String discordDefaultResultSuffix;
 
     @Value("${camenduru.discord.default.discord}")
     private String defaultDiscord;
@@ -93,10 +101,21 @@ public class InferenceCommand implements SlashCommand {
         job.setSource(DEFAULT_SOURCE);
         job.setSourceId(sourceId);
         job.setSourceChannel(sourceChannel);
+        int width = 512;
+        int height = 512;
+        String jsonString = job.getCommand();
+        try {
+            JsonElement jsonElement = JsonParser.parseString(jsonString);
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            width = jsonObject.get("width").getAsInt();
+            height = jsonObject.get("height").getAsInt();
+        } catch (JsonSyntaxException e) {
+            System.err.println("Invalid JSON syntax: " + e.getMessage());
+        }
+        job.setResult(discordDefaultResult + width + "x" + height + discordDefaultResultSuffix);
         job.setCommand(command);
         job.setType(typeC.getType());
         job.setAmount(typeC.getAmount());
-        job.setResult(defaultResult);
         job.setDiscord(detail);
         job.setTotal(detail);
         job.setLogin(detail.getLogin());
