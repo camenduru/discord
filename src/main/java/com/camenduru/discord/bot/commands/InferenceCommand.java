@@ -103,12 +103,13 @@ public class InferenceCommand implements SlashCommand {
         job.setSourceChannel(sourceChannel);
         int width = 512;
         int height = 512;
-        String jsonString = job.getCommand();
         try {
-            JsonElement jsonElement = JsonParser.parseString(jsonString);
-            JsonObject jsonObject = jsonElement.getAsJsonObject();
-            width = jsonObject.get("width").getAsInt();
-            height = jsonObject.get("height").getAsInt();
+            JsonElement jsonElement = JsonParser.parseString(command);
+            if (jsonElement.isJsonObject()) {
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                width = jsonObject.get("width").getAsInt();
+                height = jsonObject.get("height").getAsInt();
+            }
         } catch (JsonSyntaxException e) {
             System.err.println("Invalid JSON syntax: " + e.getMessage());
         }
